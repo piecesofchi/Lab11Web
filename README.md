@@ -1,5 +1,7 @@
 # Lab11Web
 
+# Praktikum 11
+
 ## Persiapan Struktur Folder
 
 Buat folder project:
@@ -154,5 +156,147 @@ SQL:
         judul VARCHAR(255),
         keterangan TEXT
     );
+
+
+# Praktikum 12 – Autentikasi dan Session
+
+
+
+## Struktur Folder Project
+
+```
+lab11_php_oop/
+├── index.php
+├── config.php
+├── class/
+│   └── Database.php
+├── module/
+│   ├── home/
+│   │   └── index.php
+│   ├── artikel/
+│   │   └── index.php
+│   └── user/
+│       ├── login.php
+│       └── logout.php
+└── template/
+    ├── header.php
+    └── footer.php
+```
+
+---
+
+## A. Persiapan Database
+
+### 1. Membuat Database
+
+Membuat database dengan nama `latihan_oop` melalui phpMyAdmin.
+
+### 2. Membuat Tabel Users
+
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    nama VARCHAR(100)
+);
+```
+
+### 3. Insert Data Dummy
+
+```sql
+INSERT INTO users (username, password, nama)
+VALUES (
+    'admin',
+    '$2y$10$uWdZ2x.hQfGqGz/..q7wue.3/a/e/e/e/e/e/e/e/e/e/e',
+    'Administrator'
+);
+```
+
+Password asli untuk user admin adalah **admin123**.
+
+---
+
+## B. Konfigurasi Database
+
+File `config.php` digunakan untuk menyimpan konfigurasi koneksi database:
+
+```php
+<?php
+$config = [
+    'host'     => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'db_name'  => 'latihan_oop'
+];
+```
+
+---
+
+## C. Class Database
+
+File `class/Database.php` digunakan untuk mengelola koneksi dan query database. Class ini mengambil konfigurasi dari file `config.php` dan menggunakan ekstensi `mysqli` untuk koneksi ke MySQL.
+
+---
+
+## D. Routing Utama
+
+File `index.php` berfungsi sebagai router utama aplikasi. File ini:
+
+* Mengaktifkan session
+* Mengecek status login user
+* Mengatur halaman publik dan halaman yang membutuhkan autentikasi
+* Memuat modul sesuai URL
+
+---
+
+## E. Modul User
+
+### 1. Login
+
+File `module/user/login.php` berisi:
+
+* Form login
+* Proses autentikasi user
+* Verifikasi password menggunakan `password_verify()`
+* Pembuatan session saat login berhasil
+
+### 2. Logout
+
+File `module/user/logout.php` digunakan untuk:
+
+* Menghapus session menggunakan `session_destroy()`
+* Mengarahkan kembali ke halaman login
+
+---
+
+## F. Pengujian Sistem
+
+1. Mengakses halaman artikel tanpa login
+
+   * Sistem otomatis mengarahkan ke halaman login
+2. Login menggunakan akun admin
+
+   * Username: admin
+   * Password: admin123
+3. Login berhasil
+
+   * User diarahkan ke halaman artikel
+   * Menu logout muncul pada navbar
+4. Logout
+
+   * Session dihapus
+   * User kembali ke halaman login
+
+---
+
+
+## Dokumentasi
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/86ce95b9-0d0a-4ecc-a53f-529b4ed62133" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/43a45f09-d073-4370-bfe6-c4ab5adefa36" />
+
+
 
 
